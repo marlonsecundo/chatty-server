@@ -26,7 +26,8 @@ Route.get('/', async () => {
 
 // Google Auth
 Route.get('/google/redirect', 'Auth/GoogleSessionsController.redirect')
-Route.get('/google/callback', 'Auth/GoogleSessionsController.callback')
+Route.get('/google/callback/', 'Auth/GoogleSessionsController.callback')
+Route.get('/google/user', 'Auth/GoogleSessionsController.getUser').middleware('auth')
 
 // Resources
 Route.resource('posts', 'PostsController').apiOnly()
