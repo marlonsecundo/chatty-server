@@ -30,4 +30,6 @@ Route.get('/google/callback/', 'Auth/GoogleSessionsController.callback')
 Route.get('/google/user', 'Auth/GoogleSessionsController.getUser').middleware('auth')
 
 // Resources
-Route.resource('posts', 'PostsController').apiOnly()
+Route.group(() => {
+  Route.resource('posts', 'PostsController').apiOnly()
+}).middleware('auth')

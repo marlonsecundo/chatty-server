@@ -1,7 +1,17 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeCreate, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import {
+  BaseModel,
+  beforeCreate,
+  BelongsTo,
+  belongsTo,
+  column,
+  HasMany,
+  hasMany,
+} from '@ioc:Adonis/Lucid/Orm'
 import { v4 as uuidv4 } from 'uuid'
 import User from './User'
+import PostsLike from './PostsLike'
+import PostsComment from './PostsComment'
 
 export default class Post extends BaseModel {
   @column({ isPrimary: true })
@@ -21,6 +31,12 @@ export default class Post extends BaseModel {
 
   @belongsTo(() => User)
   public user: BelongsTo<typeof User>
+
+  @hasMany(() => PostsLike)
+  public likes: HasMany<typeof PostsLike>
+
+  @hasMany(() => PostsComment)
+  public comments: HasMany<typeof PostsComment>
 
   @beforeCreate()
   public static async generateId(post: Post) {
