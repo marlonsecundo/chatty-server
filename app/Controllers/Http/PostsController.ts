@@ -1,11 +1,18 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Post from 'App/Models/Post'
+import Profile from 'App/Models/Profile'
 
 export default class PostsController {
   public async index({ request }: HttpContextContract) {
     const { limit, page } = request.all()
 
-    return Post.query().preload('comments').preload('likes').paginate(page, limit)
+    return await Post.query()
+      .preload('user', (userQuery) => {
+        userQuery.select(['username']).preload('profile')
+      })
+      .withCount('comments')
+      .withCount('likes')
+      .paginate(page, limit)
   }
 
   public async store({ auth, request }: HttpContextContract) {

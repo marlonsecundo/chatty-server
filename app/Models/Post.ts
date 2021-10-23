@@ -5,6 +5,7 @@ import {
   BelongsTo,
   belongsTo,
   column,
+  computed,
   HasMany,
   hasMany,
 } from '@ioc:Adonis/Lucid/Orm'
@@ -14,19 +15,26 @@ import PostsLike from './PostsLike'
 import PostsComment from './PostsComment'
 
 export default class Post extends BaseModel {
+  public serializeExtras() {
+    return {
+      comments_count: this.$extras.comments_count,
+      likes_count: this.$extras.likes_count,
+    }
+  }
+
   @column({ isPrimary: true })
-  public id: number
+  public id: string
 
   @column()
   public content: string
 
-  @column()
+  @column({ serializeAs: null })
   public userId: number
 
-  @column.dateTime({ autoCreate: true })
+  @column.dateTime({ autoCreate: true, serializeAs: null })
   public createdAt: DateTime
 
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  @column.dateTime({ autoCreate: true, autoUpdate: true, serializeAs: null })
   public updatedAt: DateTime
 
   @belongsTo(() => User)
