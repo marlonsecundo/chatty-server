@@ -8,6 +8,8 @@ import {
   computed,
   HasMany,
   hasMany,
+  ModelQueryBuilderContract,
+  scope,
 } from '@ioc:Adonis/Lucid/Orm'
 import { v4 as uuidv4 } from 'uuid'
 import User from './User'
@@ -52,4 +54,14 @@ export default class Post extends BaseModel {
       post.id = uuidv4()
     }
   }
+
+  public static withUser = scope((query: ModelQueryBuilderContract<typeof Post>) => {
+    query.preload('user', (userQuery) => {
+      userQuery.preload('profile')
+    })
+  })
+
+  public static withCounts = scope((query: ModelQueryBuilderContract<typeof Post>) => {
+    query.withCount('comments').withCount('likes')
+  })
 }

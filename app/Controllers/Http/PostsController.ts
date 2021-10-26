@@ -1,4 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { scope } from '@ioc:Adonis/Lucid/Orm'
 import Post from 'App/Models/Post'
 import Profile from 'App/Models/Profile'
 
@@ -7,11 +8,11 @@ export default class PostsController {
     const { limit, page } = request.all()
 
     return await Post.query()
-      .preload('user', (userQuery) => {
-        userQuery.select(['username']).preload('profile')
+      .withScopes((scopes) => {
+        scopes.withCounts()
+        scopes.withUser()
       })
-      .withCount('comments')
-      .withCount('likes')
+      .orderBy('createdAt', 'desc')
       .paginate(page, limit)
   }
 
@@ -19,7 +20,17 @@ export default class PostsController {
     const { content } = request.all()
     const user = await auth.use('api').authenticate()
 
-    return user.related('posts').create({ content })
+    const { id } = await user.related('posts').create({ content })
+
+    const post = Post.query()
+      .where({ id })
+      .withScopes((scopes) => {
+        scopes.withCounts()
+        scopes.withUser()
+      })
+      .first()
+
+    return post
   }
 
   public async show({}: HttpContextContract) {}
