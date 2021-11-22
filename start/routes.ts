@@ -32,4 +32,6 @@ Route.get('/google/user', 'Auth/GoogleSessionsController.getUser').middleware('a
 // Resources
 Route.group(() => {
   Route.resource('posts', 'PostsController').apiOnly()
+
+  Route.patch('users/me', 'UsersController.update')
 }).middleware('auth')
