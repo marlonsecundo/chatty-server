@@ -2,6 +2,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { scope } from '@ioc:Adonis/Lucid/Orm'
 import Post from 'App/Models/Post'
 import Profile from 'App/Models/Profile'
+import { DateTime } from 'luxon'
 
 export default class PostsController {
   public async index({ request }: HttpContextContract) {

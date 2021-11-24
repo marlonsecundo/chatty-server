@@ -1,5 +1,4 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import User from 'App/Models/User'
 
 export default class UsersController {
   public async update({ request, auth }: HttpContextContract) {
@@ -28,5 +27,13 @@ export default class UsersController {
         description,
       },
     }
+  }
+
+  public async destroy({ auth }: HttpContextContract) {
+    const user = await auth.use('api').authenticate()
+
+    await auth.use('api').logout()
+
+    return user.delete()
   }
 }

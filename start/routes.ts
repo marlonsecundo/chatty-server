@@ -28,10 +28,14 @@ Route.get('/', async () => {
 Route.get('/google/redirect', 'Auth/GoogleSessionsController.redirect')
 Route.get('/google/callback/', 'Auth/GoogleSessionsController.callback')
 Route.get('/google/user', 'Auth/GoogleSessionsController.getUser').middleware('auth')
+Route.get('/logout', 'Auth/GoogleSessionsController.logout').middleware('auth')
 
 // Resources
 Route.group(() => {
+  // POST
   Route.resource('posts', 'PostsController').apiOnly()
 
+  // USER
   Route.patch('users/me', 'UsersController.update')
+  Route.delete('users/me', 'UsersController.destroy')
 }).middleware('auth')

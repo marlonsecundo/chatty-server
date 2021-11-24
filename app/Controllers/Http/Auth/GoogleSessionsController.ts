@@ -61,4 +61,8 @@ export default class GoogleSessionsController {
 
     return user
   }
+
+  public async logout({ auth }: HttpContextContract) {
+    return auth.logout()
+  }
 }
