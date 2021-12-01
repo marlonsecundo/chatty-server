@@ -1,9 +1,27 @@
 import { DateTime } from 'luxon'
-import { column, BaseModel, hasOne, HasOne, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
+import {
+  column,
+  BaseModel,
+  hasOne,
+  HasOne,
+  hasMany,
+  HasMany,
+  hasManyThrough,
+  HasManyThrough,
+} from '@ioc:Adonis/Lucid/Orm'
 import Profile from './Profile'
 import Post from './Post'
+import PostsLike from './PostsLike'
 
 export default class User extends BaseModel {
+  public serializeExtras() {
+    console.log(this.$extras)
+
+    return {
+      postLikes_count: this.$extras.postLikes_count,
+      posts_count: this.$extras.posts_count,
+    }
+  }
   @column({ isPrimary: true, serializeAs: null })
   public id: number
 
@@ -27,4 +45,7 @@ export default class User extends BaseModel {
 
   @hasMany(() => Post)
   public posts: HasMany<typeof Post>
+
+  @hasManyThrough([() => PostsLike, () => Post])
+  public postLikes: HasManyThrough<typeof PostsLike>
 }

@@ -10,7 +10,7 @@ export default class PostsController {
 
     return await Post.query()
       .withScopes((scopes) => {
-        scopes.withCounts()
+        scopes.withLikesCount()
         scopes.withUser()
       })
       .orderBy('createdAt', 'desc')
@@ -26,7 +26,7 @@ export default class PostsController {
     const post = Post.query()
       .where({ id })
       .withScopes((scopes) => {
-        scopes.withCounts()
+        scopes.withLikesCount()
         scopes.withUser()
       })
       .first()

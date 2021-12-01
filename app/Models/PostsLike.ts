@@ -1,8 +1,18 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeCreate, belongsTo, BelongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import {
+  BaseModel,
+  beforeCreate,
+  belongsTo,
+  BelongsTo,
+  column,
+  ModelQueryBuilderContract,
+  scope,
+} from '@ioc:Adonis/Lucid/Orm'
 import { v4 as uuidv4 } from 'uuid'
 import User from './User'
 import Post from './Post'
+
+type QueryBuilder = ModelQueryBuilderContract<typeof PostsLike>
 
 export default class PostsLike extends BaseModel {
   @column({ isPrimary: true })
@@ -25,6 +35,10 @@ export default class PostsLike extends BaseModel {
 
   @belongsTo(() => Post)
   public post: BelongsTo<typeof Post>
+
+  public static withUserLikesCount = scope((query: QueryBuilder, user: User) => {
+    query.count('*', 'total').where({ userId: user.id })
+  })
 
   @beforeCreate()
   public static async generateId(postsLike: PostsLike) {

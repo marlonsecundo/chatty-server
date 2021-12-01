@@ -36,6 +36,7 @@ Route.group(() => {
   Route.resource('posts', 'PostsController').apiOnly()
 
   // USER
+  Route.get('users/me', 'UsersController.show')
   Route.patch('users/me', 'UsersController.update')
   Route.delete('users/me', 'UsersController.destroy')
 }).middleware('auth')

@@ -5,7 +5,6 @@ import {
   BelongsTo,
   belongsTo,
   column,
-  computed,
   HasMany,
   hasMany,
   ModelQueryBuilderContract,
@@ -16,10 +15,11 @@ import User from './User'
 import PostsLike from './PostsLike'
 import PostsComment from './PostsComment'
 
+type QueryBuilder = ModelQueryBuilderContract<typeof Post>
+
 export default class Post extends BaseModel {
   public serializeExtras() {
     return {
-      comments_count: this.$extras.comments_count,
       likes_count: this.$extras.likes_count,
     }
   }
@@ -55,13 +55,13 @@ export default class Post extends BaseModel {
     }
   }
 
-  public static withUser = scope((query: ModelQueryBuilderContract<typeof Post>) => {
+  public static withUser = scope((query: QueryBuilder) => {
     query.preload('user', (userQuery) => {
       userQuery.preload('profile')
     })
   })
 
-  public static withCounts = scope((query: ModelQueryBuilderContract<typeof Post>) => {
-    query.withCount('comments').withCount('likes')
+  public static withLikesCount = scope((query: QueryBuilder) => {
+    query.withCount('likes')
   })
 }
