@@ -6,9 +6,10 @@ export default class PostsController {
     const { limit, page } = request.all()
 
     return await Post.query()
+      .preload('likes')
+      .withCount('likes')
       .withScopes((scopes) => {
-        scopes.withLikesCount()
-        scopes.withUser()
+        scopes.withOwnerUser()
       })
       .orderBy('createdAt', 'desc')
       .paginate(page, limit)
@@ -22,9 +23,9 @@ export default class PostsController {
 
     const post = Post.query()
       .where({ id })
+      .withCount('likes')
       .withScopes((scopes) => {
-        scopes.withLikesCount()
-        scopes.withUser()
+        scopes.withOwnerUser()
       })
       .first()
 

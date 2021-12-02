@@ -36,8 +36,8 @@ Route.group(() => {
   Route.resource('posts', 'PostsController').apiOnly()
 
   // POST_LIKE
-  Route.resource('posts/:posts_id/like', 'PostLikesController').apiOnly().except(['destroy'])
-  Route.delete('posts/:posts_id/like/my', 'PostLikesController.destroy')
+  Route.resource('posts/:posts_id/likes', 'PostLikesController').apiOnly().except(['destroy'])
+  Route.delete('posts/:posts_id/likes/my', 'PostLikesController.destroy')
 
   // USER
   Route.get('users/me', 'UsersController.show')

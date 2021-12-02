@@ -5,6 +5,7 @@ import {
   BelongsTo,
   belongsTo,
   column,
+  computed,
   HasMany,
   hasMany,
   ModelQueryBuilderContract,
@@ -14,13 +15,14 @@ import { v4 as uuidv4 } from 'uuid'
 import User from './User'
 import PostsLike from './PostsLike'
 import PostsComment from './PostsComment'
+import moment from 'moment'
 
 type QueryBuilder = ModelQueryBuilderContract<typeof Post>
 
 export default class Post extends BaseModel {
   public serializeExtras() {
     return {
-      likes_count: this.$extras.likes_count,
+      likes_count: Number(this.$extras.likes_count ?? 0),
     }
   }
 
@@ -39,6 +41,11 @@ export default class Post extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true, serializeAs: null })
   public updatedAt: DateTime
 
+  @computed()
+  public get timeSince() {
+    return moment().from(this.createdAt)
+  }
+
   @belongsTo(() => User)
   public user: BelongsTo<typeof User>
 
@@ -55,13 +62,9 @@ export default class Post extends BaseModel {
     }
   }
 
-  public static withUser = scope((query: QueryBuilder) => {
+  public static withOwnerUser = scope((query: QueryBuilder) => {
     query.preload('user', (userQuery) => {
       userQuery.preload('profile')
     })
-  })
-
-  public static withLikesCount = scope((query: QueryBuilder) => {
-    query.withCount('likes')
   })
 }

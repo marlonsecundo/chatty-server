@@ -22,7 +22,7 @@ export default class User extends BaseModel {
       posts_count: this.$extras.posts_count,
     }
   }
-  @column({ isPrimary: true, serializeAs: null })
+  @column({ isPrimary: true })
   public id: number
 
   @column({ serializeAs: null })
