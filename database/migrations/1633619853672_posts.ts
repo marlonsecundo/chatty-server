@@ -8,7 +8,7 @@ export default class Posts extends BaseSchema {
       table.uuid('id').primary()
       table.string('content')
       table
-        .integer('user_id')
+        .uuid('user_id')
         .references('users.id')
         .notNullable()
         .onDelete('CASCADE')

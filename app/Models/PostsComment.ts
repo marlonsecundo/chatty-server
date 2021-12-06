@@ -12,7 +12,7 @@ export default class PostsComment extends BaseModel {
   public content: string
 
   @column()
-  public userId: number
+  public userId: string
 
   @column()
   public postId: number

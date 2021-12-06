@@ -19,7 +19,7 @@ export default class PostsLike extends BaseModel {
   public id: number
 
   @column()
-  public userId: number
+  public userId: string
 
   @column({ serializeAs: null })
   public postId: number

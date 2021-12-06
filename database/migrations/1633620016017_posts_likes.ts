@@ -13,7 +13,7 @@ export default class PostsLikes extends BaseSchema {
         .onDelete('CASCADE')
         .onUpdate('CASCADE')
       table
-        .integer('user_id')
+        .uuid('user_id')
         .references('users.id')
         .notNullable()
         .onDelete('CASCADE')

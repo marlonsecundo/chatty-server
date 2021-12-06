@@ -33,7 +33,7 @@ export default class Post extends BaseModel {
   public content: string
 
   @column({ serializeAs: null })
-  public userId: number
+  public userId: string
 
   @column.dateTime({ autoCreate: true, serializeAs: null })
   public createdAt: DateTime

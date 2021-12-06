@@ -8,10 +8,12 @@ import {
   HasMany,
   hasManyThrough,
   HasManyThrough,
+  beforeCreate,
 } from '@ioc:Adonis/Lucid/Orm'
 import Profile from './Profile'
 import Post from './Post'
 import PostsLike from './PostsLike'
+import { v4 as uuidv4 } from 'uuid'
 
 export default class User extends BaseModel {
   public serializeExtras() {
@@ -23,7 +25,7 @@ export default class User extends BaseModel {
     }
   }
   @column({ isPrimary: true })
-  public id: number
+  public id: string
 
   @column({ serializeAs: null })
   public email: string
@@ -48,4 +50,11 @@ export default class User extends BaseModel {
 
   @hasManyThrough([() => PostsLike, () => Post])
   public postLikes: HasManyThrough<typeof PostsLike>
+
+  @beforeCreate()
+  public static async generateId(user: User) {
+    if (user.$dirty) {
+      user.id = uuidv4()
+    }
+  }
 }
