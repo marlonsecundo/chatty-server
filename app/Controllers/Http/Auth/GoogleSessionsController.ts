@@ -55,11 +55,14 @@ export default class GoogleSessionsController {
   }
 
   public async getUser({ auth }: HttpContextContract) {
-    const user = await auth.use('api').authenticate()
+    const { id } = await auth.use('api').authenticate()
 
-    await user.load('profile')
-
-    return user
+    return User.query()
+      .where({ id })
+      .withCount('postLikes')
+      .withCount('posts')
+      .preload('profile')
+      .first()
   }
 
   public async logout({ auth }: HttpContextContract) {

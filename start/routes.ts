@@ -40,7 +40,7 @@ Route.group(() => {
   Route.delete('posts/:posts_id/likes/my', 'PostLikesController.destroy')
 
   // USER
-  Route.get('users/me', 'UsersController.show')
+  Route.get('users/:users_id', 'UsersController.show')
   Route.patch('users/me', 'UsersController.update')
   Route.delete('users/me', 'UsersController.destroy')
 }).middleware('auth')

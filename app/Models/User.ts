@@ -18,8 +18,8 @@ export default class User extends BaseModel {
     console.log(this.$extras)
 
     return {
-      postLikes_count: this.$extras.postLikes_count,
-      posts_count: this.$extras.posts_count,
+      postLikes_count: Number(this.$extras.postLikes_count ?? 0),
+      posts_count: Number(this.$extras.posts_count ?? 0),
     }
   }
   @column({ isPrimary: true })

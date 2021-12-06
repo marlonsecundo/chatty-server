@@ -2,11 +2,11 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User'
 
 export default class UsersController {
-  public async show({ auth }: HttpContextContract) {
-    const { id } = await auth.use('api').authenticate()
+  public async show({ request }: HttpContextContract) {
+    const { users_id: userId } = request.params()
 
     const user = await User.query()
-      .where({ id })
+      .where({ id: userId })
       .withCount('postLikes')
       .withCount('posts')
       .preload('profile')
