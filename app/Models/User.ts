@@ -17,8 +17,6 @@ import { v4 as uuidv4 } from 'uuid'
 
 export default class User extends BaseModel {
   public serializeExtras() {
-    console.log(this.$extras)
-
     return {
       postLikes_count: Number(this.$extras.postLikes_count ?? 0),
       posts_count: Number(this.$extras.posts_count ?? 0),

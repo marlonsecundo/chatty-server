@@ -43,7 +43,7 @@ export default class Post extends BaseModel {
 
   @computed()
   public get timeSince() {
-    return moment().from(this.createdAt)
+    return moment().from(this.createdAt.toJSDate())
   }
 
   @belongsTo(() => User)
