@@ -20,7 +20,7 @@ export default class UsersController {
 
     const {
       username,
-      profile: { birth, name, description },
+      profile: { name, description },
     } = request.all()
 
     await user.load('profile')
@@ -29,7 +29,7 @@ export default class UsersController {
 
     await user.save()
 
-    user.profile.merge({ birth, name, description })
+    user.profile.merge({ name, description })
 
     await user.profile.save()
 
@@ -37,7 +37,6 @@ export default class UsersController {
       username,
       profile: {
         name,
-        birth,
         description,
       },
     }

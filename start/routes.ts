@@ -28,7 +28,7 @@ Route.get('/', async () => {
 Route.get('/google/redirect', 'Auth/GoogleSessionsController.redirect')
 Route.get('/google/callback/', 'Auth/GoogleSessionsController.callback')
 Route.get('/google/user', 'Auth/GoogleSessionsController.getUser').middleware('auth')
-Route.get('/logout', 'Auth/GoogleSessionsController.logout').middleware('auth')
+Route.delete('/logout', 'Auth/GoogleSessionsController.logout').middleware('auth')
 
 // Resources
 Route.group(() => {

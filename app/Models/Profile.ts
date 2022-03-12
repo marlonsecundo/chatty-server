@@ -18,9 +18,6 @@ export default class Profile extends BaseModel {
   @column()
   public name: string
 
-  @column.date()
-  public birth: DateTime
-
   @column()
   public description: string
 
