@@ -6,9 +6,12 @@ export default class PostLikesController {
     const user = await auth.authenticate()
     const { posts_id: postId } = request.params()
 
-    await PostsLike.firstOrCreate({ postId, userId: user.id })
+    const postLike = await PostsLike.firstOrCreate({ postId, userId: user.id })
 
-    return
+    await postLike.load('post')
+    await postLike.post.load('user')
+
+    const postUser = postLike.post.user
   }
 
   public async destroy({ auth, request }: HttpContextContract) {

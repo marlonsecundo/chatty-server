@@ -34,6 +34,9 @@ export default class User extends BaseModel {
   @column()
   public username: string
 
+  @column()
+  public fcmToken: string
+
   @column.dateTime({ autoCreate: true, serializeAs: null })
   public createdAt: DateTime
 

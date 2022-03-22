@@ -18,6 +18,7 @@
       "@adonisjs/lucid",
       "@adonisjs/ally",
       "@adonisjs/auth"
-    ]
+    ],
+    "resolveJsonModule": true
   }
 }

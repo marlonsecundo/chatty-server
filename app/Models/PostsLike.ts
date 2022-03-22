@@ -21,7 +21,7 @@ export default class PostsLike extends BaseModel {
   @column()
   public userId: string
 
-  @column({ serializeAs: null })
+  @column()
   public postId: number
 
   @column.dateTime({ autoCreate: true, serializeAs: null })

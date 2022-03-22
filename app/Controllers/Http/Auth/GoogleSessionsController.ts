@@ -47,6 +47,8 @@ export default class GoogleSessionsController {
 
       const token = await auth.use('api').generate(user)
 
+      console.log({ url: state.appRedirectUri })
+
       response.redirect().toPath(`${state.appRedirectUri}?token=${token.token}&`)
     } catch (err) {
       console.log(err)
