@@ -1,5 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import PostsLike from 'App/Models/PostsLike'
+import Event from '@ioc:Adonis/Core/Event'
+import Post from 'App/Models/Post'
 
 export default class PostLikesController {
   public async store({ auth, request }: HttpContextContract) {
@@ -8,10 +10,17 @@ export default class PostLikesController {
 
     const postLike = await PostsLike.firstOrCreate({ postId, userId: user.id })
 
-    await postLike.load('post')
-    await postLike.post.load('user')
+    await postLike.load('post', (query) => {
+      query.preload('user').withCount('likes')
+    })
 
-    const postUser = postLike.post.user
+    const { post } = postLike
+
+    const userPostOwner = post.user
+
+    const likesCount = post.$extras.likes_count
+
+    Event.emit('new:postLike', { userWhoLiked: user, userPostOwner, likesCount, post })
   }
 
   public async destroy({ auth, request }: HttpContextContract) {

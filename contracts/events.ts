@@ -5,6 +5,9 @@
  * file.
  */
 
+import Post from 'App/Models/Post'
+import User from 'App/Models/User'
+
 declare module '@ioc:Adonis/Core/Event' {
   /*
   |--------------------------------------------------------------------------
@@ -25,5 +28,7 @@ declare module '@ioc:Adonis/Core/Event' {
   | an instance of the the UserModel only.
   |
   */
-  interface EventsList {}
+  interface EventsList {
+    'new:postLike': { userPostOwner: User; userWhoLiked: User; post: Post; likesCount: number }
+  }
 }
