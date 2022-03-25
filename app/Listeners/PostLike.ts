@@ -13,12 +13,14 @@ export default class PostLike {
 
     const fcmMessage: Message = {
       data: {
-        title: `Your post has ${likesCount} likes`,
-        body: `The ${userWhoLiked.username} liked your post`,
         postId: post.id,
         itype: 'new:postLike',
+        route: 'Feed',
       },
-
+      notification: {
+        body: `The ${userWhoLiked.username} liked your post`,
+        title: `Your post has ${likesCount} likes`,
+      },
       token: fcmToken,
     }
 
