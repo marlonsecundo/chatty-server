@@ -15,7 +15,7 @@ export default class PostLike {
       data: {
         postId: post.id,
         itype: 'new:postLike',
-        route: 'Feed',
+        route: 'Profile',
       },
       notification: {
         body: `The ${userWhoLiked.username} liked your post`,

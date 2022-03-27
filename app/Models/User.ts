@@ -9,11 +9,15 @@ import {
   hasManyThrough,
   HasManyThrough,
   beforeCreate,
+  scope,
+  ModelQueryBuilderContract,
 } from '@ioc:Adonis/Lucid/Orm'
 import Profile from './Profile'
 import Post from './Post'
 import PostsLike from './PostsLike'
 import { v4 as uuidv4 } from 'uuid'
+
+type QueryBuilder = ModelQueryBuilderContract<typeof User>
 
 export default class User extends BaseModel {
   public serializeExtras() {
@@ -34,7 +38,7 @@ export default class User extends BaseModel {
   @column()
   public username: string
 
-  @column()
+  @column({ serializeAs: null })
   public fcmToken: string
 
   @column.dateTime({ autoCreate: true, serializeAs: null })
@@ -58,4 +62,10 @@ export default class User extends BaseModel {
       user.id = uuidv4()
     }
   }
+
+  public static withProfilePicture = scope((query: QueryBuilder) => {
+    query.preload('profile', (profileQuery) => {
+      profileQuery.select('imageUrl')
+    })
+  })
 }
