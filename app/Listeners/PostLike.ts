@@ -4,8 +4,6 @@ import { Message } from 'firebase-admin/lib/messaging/messaging-api'
 
 export default class PostLike {
   public async onNewPostLike(eventData: EventsList['new:postLike']) {
-    const delay = (ms) => new Promise((res) => setTimeout(res, ms))
-
     const fcmToken = eventData.userPostOwner.fcmToken
     const { userWhoLiked, post, likesCount } = eventData
 
@@ -15,7 +13,7 @@ export default class PostLike {
       data: {
         postId: post.id,
         itype: 'new:postLike',
-        route: 'Profile',
+        route: 'Feed',
       },
       notification: {
         body: `The ${userWhoLiked.username} liked your post`,
@@ -23,8 +21,6 @@ export default class PostLike {
       },
       token: fcmToken,
     }
-
-    await delay(5000)
 
     await messaging().send(fcmMessage)
   }
