@@ -1,5 +1,5 @@
-sudo systemctl start docker
+systemctl start docker
 
-sudo yarn docker-compose
+yarn docker-compose
 
 yarn dev

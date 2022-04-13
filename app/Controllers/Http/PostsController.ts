@@ -3,12 +3,16 @@ import Post from 'App/Models/Post'
 
 export default class PostsController {
   public async index({ request }: HttpContextContract) {
-    const { limit, page, id } = request.all()
+    const { limit, page, id, user_id: userId } = request.all()
 
     let query = Post.query()
 
     if (id) {
       query = query.where({ id })
+    }
+
+    if (userId) {
+      query = query.where({ userId })
     }
 
     query = query
@@ -43,5 +47,11 @@ export default class PostsController {
 
   public async update({}: HttpContextContract) {}
 
-  public async destroy({}: HttpContextContract) {}
+  public async destroy({ request }: HttpContextContract) {
+    const { id } = request.params()
+
+    const post = await Post.findOrFail(id)
+
+    return post.delete()
+  }
 }

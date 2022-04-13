@@ -5,12 +5,14 @@ import {
   belongsTo,
   BelongsTo,
   column,
+  computed,
   ModelQueryBuilderContract,
   scope,
 } from '@ioc:Adonis/Lucid/Orm'
 import { v4 as uuidv4 } from 'uuid'
 import User from './User'
 import Post from './Post'
+import moment from 'moment'
 
 type QueryBuilder = ModelQueryBuilderContract<typeof PostsLike>
 
@@ -22,7 +24,12 @@ export default class PostsLike extends BaseModel {
   public userId: string
 
   @column()
-  public postId: number
+  public postId: string
+
+  @computed()
+  public get timeSince() {
+    return moment().from(this.createdAt.toJSDate())
+  }
 
   @column.dateTime({ autoCreate: true, serializeAs: null })
   public createdAt: DateTime

@@ -45,5 +45,3 @@ Route.group(() => {
   Route.delete('users/me', 'UsersController.destroy')
   Route.post('users/me/token', 'UserTokensController.store')
 }).middleware('auth')
-
-Route.get('teste', 'UserTokensController.teste')
