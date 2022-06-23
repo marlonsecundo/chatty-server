@@ -24,6 +24,12 @@
         "repl",
         "web"
       ]
+    },
+    {
+      "file": "./start/validator",
+      "environment": [
+        "web"
+      ]
     }
   ],
   "providers": [

@@ -1,9 +1,12 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Post from 'App/Models/Post'
+import CreatePostValidator from 'App/Validators/CreatePostValidator'
+import DestroyPostValidator from 'App/Validators/DestroyPostValidator'
+import IndexPostValidator from 'App/Validators/IndexPostValidator'
 
 export default class PostsController {
   public async index({ request }: HttpContextContract) {
-    const { limit, page, id, userId } = request.all()
+    const { page, limit, userId, id } = await request.validate(IndexPostValidator)
 
     let query = Post.query()
 
@@ -27,7 +30,8 @@ export default class PostsController {
   }
 
   public async store({ auth, request }: HttpContextContract) {
-    const { content } = request.all()
+    const { content } = await request.validate(CreatePostValidator)
+
     const user = await auth.use('api').authenticate()
 
     const { id } = await user.related('posts').create({ content })
@@ -48,7 +52,9 @@ export default class PostsController {
   public async update({}: HttpContextContract) {}
 
   public async destroy({ request }: HttpContextContract) {
-    const { id } = request.params()
+    const {
+      params: { id },
+    } = await request.validate(DestroyPostValidator)
 
     const post = await Post.findOrFail(id)
 
