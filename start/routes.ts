@@ -43,5 +43,5 @@ Route.group(() => {
   Route.get('users/:users_id', 'UsersController.show')
   Route.patch('users/me', 'UsersController.update')
   Route.delete('users/me', 'UsersController.destroy')
-  Route.post('users/me/token', 'UserTokensController.store')
+  Route.post('users/me/fcmtoken', 'UserFCMTokensController.store')
 }).middleware('auth')
