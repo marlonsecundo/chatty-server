@@ -1,14 +1,14 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import PostsLike from 'App/Models/PostsLike'
 import Event from '@ioc:Adonis/Core/Event'
+import Post from 'App/Models/Post'
 
 export default class PostLikesController {
   public async index({ request }: HttpContextContract) {
-    const { posts_id: postId, page, limit } = request.params()
+    const { posts_id: postId } = request.params()
+    const { page, limit } = request.all()
 
     let query = PostsLike.query()
-
-    console.log({ postId })
 
     if (postId) {
       query = query.where({ postId })

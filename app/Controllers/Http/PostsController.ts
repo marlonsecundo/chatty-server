@@ -3,7 +3,7 @@ import Post from 'App/Models/Post'
 
 export default class PostsController {
   public async index({ request }: HttpContextContract) {
-    const { limit, page, id, user_id: userId } = request.all()
+    const { limit, page, id, userId } = request.all()
 
     let query = Post.query()
 
