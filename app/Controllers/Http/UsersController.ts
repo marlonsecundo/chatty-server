@@ -1,9 +1,15 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User'
+import ShowUserValidator from 'App/Validators/ShowUserValidator'
+import UpdateUserValidator from 'App/Validators/UpdateUserValidator'
 
 export default class UsersController {
-  public async show({ request }: HttpContextContract) {
-    const { users_id: userId } = request.params()
+  public async show({ request, auth }: HttpContextContract) {
+    await auth.use('api').authenticate()
+
+    const {
+      params: { users_id: userId },
+    } = await request.validate(ShowUserValidator)
 
     const user = await User.query()
       .where({ id: userId })
@@ -21,7 +27,7 @@ export default class UsersController {
     const {
       username,
       profile: { name, description },
-    } = request.all()
+    } = await request.validate(UpdateUserValidator)
 
     await user.load('profile')
 
