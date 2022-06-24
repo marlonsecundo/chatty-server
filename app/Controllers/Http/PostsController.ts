@@ -51,13 +51,19 @@ export default class PostsController {
 
   public async update({}: HttpContextContract) {}
 
-  public async destroy({ request }: HttpContextContract) {
+  public async destroy({ request, auth }: HttpContextContract) {
+    const user = await auth.use('api').authenticate()
+
     const {
       params: { id },
     } = await request.validate(DestroyPostValidator)
 
     const post = await Post.findOrFail(id)
 
-    return post.delete()
+    if (post.userId === user.id) {
+      return post.delete()
+    }
+
+    return
   }
 }

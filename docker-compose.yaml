@@ -4,9 +4,9 @@ services:
     image: postgres:10.5
     restart: always
     environment:
-      - POSTGRES_DB=chatty
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=${PG_DB_NAME}
+      - POSTGRES_USER=${PG_USER}
+      - POSTGRES_PASSWORD=${PG_PASSWORD}
     logging:
       options:
         max-size: 10m

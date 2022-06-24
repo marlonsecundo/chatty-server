@@ -1,13 +1,5 @@
 import { DateTime } from 'luxon'
-import {
-  BaseModel,
-  beforeCreate,
-  BelongsTo,
-  belongsTo,
-  column,
-  ModelQueryBuilderContract,
-  scope,
-} from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, beforeCreate, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 import { v4 as uuidv4 } from 'uuid'
 import User from './User'
 

@@ -1,7 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import PostsLike from 'App/Models/PostsLike'
 import Event from '@ioc:Adonis/Core/Event'
-import Post from 'App/Models/Post'
 import IndexPostLikeValidator from 'App/Validators/IndexPostLikeValidator'
 import CreatePostLikeValidator from 'App/Validators/CreatePostLikeValidator'
 import DestroyPostLikeValidator from 'App/Validators/DestroyPostLikeValidator'
