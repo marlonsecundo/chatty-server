@@ -1,6 +1,23 @@
-version: '3.7'
+version: '3.8'
 services:
-  postgres:
+  chatty_app:
+    container_name: chatty_app
+    restart: always
+    build:
+      context: .
+      target: dependencies
+    ports:
+      - ${PORT}:${PORT}
+      - 9229:9229
+    env_file:
+      - .env
+    volumes:
+      - ./:/home/node/app
+      # Uncomment the below line if you developing on MacOS
+      #- /home/node/app/node_modules
+    command: dumb-init node ace serve --watch --node-args="--inspect=0.0.0.0"
+  chatty_postgres:
+    container_name: chatty_postgres
     image: postgres:10.5
     restart: always
     environment:
