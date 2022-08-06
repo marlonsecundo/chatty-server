@@ -27,5 +27,5 @@ ENV HOST=$HOST
 COPY --chown=node:node ./package*.json ./
 RUN npm ci --production
 COPY --chown=node:node --from=build /home/node/app/build .
-EXPOSE 3333
+EXPOSE ${PORT}
 CMD [ "dumb-init", "node", "server.js" ]
