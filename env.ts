@@ -21,13 +21,17 @@ export default Env.rules({
   APP_NAME: Env.schema.string(),
   DRIVE_DISK: Env.schema.enum(['local'] as const),
   NODE_ENV: Env.schema.enum(['development', 'production', 'testing'] as const),
+  DB_CONNECTION: Env.schema.string(),
   //
-  PG_HOST: Env.schema.string({ format: 'host' }),
-  PG_PORT: Env.schema.number(),
-  PG_USER: Env.schema.string(),
-  PG_PASSWORD: Env.schema.string.optional(),
-  PG_DB_NAME: Env.schema.string(),
+  DEV_PG_HOST: Env.schema.string.optional({ format: 'host' }),
+  DEV_PG_PORT: Env.schema.number.optional(),
+  DEV_PG_USER: Env.schema.string.optional(),
+  DEV_PG_PASSWORD: Env.schema.string.optional(),
+  DEV_PG_DB_NAME: Env.schema.string.optional(),
   //
   GOOGLE_CLIENT_ID: Env.schema.string(),
   GOOGLE_CLIENT_SECRET: Env.schema.string(),
+  //
+  HEROKU_APP_NAME: Env.schema.string(),
+  DATABASE_URL: Env.schema.string(),
 })

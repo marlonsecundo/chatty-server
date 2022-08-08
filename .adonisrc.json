@@ -19,17 +19,11 @@
     "./start/firebase",
     {
       "file": "./start/events",
-      "environment": [
-        "console",
-        "repl",
-        "web"
-      ]
+      "environment": ["console", "repl", "web"]
     },
     {
       "file": "./start/validator",
-      "environment": [
-        "web"
-      ]
+      "environment": ["web"]
     }
   ],
   "providers": [
@@ -39,7 +33,5 @@
     "@adonisjs/ally",
     "@adonisjs/auth"
   ],
-  "aceProviders": [
-    "@adonisjs/repl"
-  ]
+  "aceProviders": ["@adonisjs/repl"]
 }
