@@ -18,6 +18,8 @@ if (Env.get('NODE_ENV') === 'development') {
   // postgres://user:password@host:port/databse
   // see more in https://devcenter.heroku.com/articles/connecting-to-heroku-postgres-databases-from-outside-of-heroku
 
+  console.log(Env.get('DATABASE_URL'))
+
   const [, userPROD, passwordPROD, hostPROD, portPROD, databasePROD] = Env.get('DATABASE_URL')
     .replace('\n', '')
     .split('postgres://')
@@ -35,6 +37,8 @@ if (Env.get('NODE_ENV') === 'development') {
   user = userPROD
   password = passwordPROD
   database = databasePROD
+
+  console.log({ host, port, user, password, database })
 }
 
 const databaseConfig: DatabaseConfig = {
