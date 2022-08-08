@@ -74,7 +74,9 @@ const databaseConfig: DatabaseConfig = {
         user,
         password,
         database,
-        ssl: true,
+        ssl: {
+          rejectUnauthorized: false,
+        },
       },
       migrations: {
         naturalSort: true,
