@@ -4,4 +4,4 @@ build:
 release:
   command:
     - ./heroku-deployment-tasks.sh
-  image: worker
+  image: web
