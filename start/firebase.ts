@@ -1,21 +1,12 @@
-/*
-|--------------------------------------------------------------------------
-| Preloaded File
-|--------------------------------------------------------------------------
-|
-| Any code written inside this file will be executed during the application
-| boot.
-|
-*/
+import Env from '@ioc:Adonis/Core/Env'
+
 import { initializeApp, ServiceAccount } from 'firebase-admin/app'
 import admin from 'firebase-admin'
 
-import credentials from '../chatty-firebase-adminsdk.json'
-
 initializeApp({
   credential: admin.credential.cert({
-    clientEmail: credentials.client_email,
-    privateKey: credentials.private_key,
-    projectId: credentials.project_id,
+    clientEmail: Env.get('FIREBASE_CLIENT_EMAIL'),
+    privateKey: Env.get('FIREBASE_PRIVATE_KEY'),
+    projectId: Env.get('FIREBASE_PROJECT_ID'),
   } as ServiceAccount),
 })

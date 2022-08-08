@@ -34,4 +34,8 @@ export default Env.rules({
   //
   HEROKU_APP_NAME: Env.schema.string(),
   DATABASE_URL: Env.schema.string(),
+  //
+  FIREBASE_CLIENT_EMAIL: Env.schema.string(),
+  FIREBASE_PRIVATE_KEY: Env.schema.string(),
+  FIREBASE_PROJECT_ID: Env.schema.string(),
 })
