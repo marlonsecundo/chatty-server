@@ -31,6 +31,7 @@ export default Env.rules({
   //
   GOOGLE_CLIENT_ID: Env.schema.string(),
   GOOGLE_CLIENT_SECRET: Env.schema.string(),
+  GOOGLE_CALLBACK_BASE_URL: Env.schema.string(),
   //
   HEROKU_APP_NAME: Env.schema.string(),
   DATABASE_URL: Env.schema.string(),
