@@ -3,5 +3,5 @@ build:
     web: Dockerfile
 release:
   command:
-    - ./heroku-deployment-tasks.sh
+    - npm run db-migrations
   image: web
