@@ -3,5 +3,5 @@ build:
     web: Dockerfile
 release:
   command:
-    - npm run db-migrations
+    - node ace migration:run
   image: web
