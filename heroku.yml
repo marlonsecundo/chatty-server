@@ -1,5 +1,7 @@
 build:
   docker:
     web: Dockerfile
-run:
-  web: node ace migration:run && dumb-init node server.js
+release:
+  command:
+    - node ace migration:run --force
+  image: web
