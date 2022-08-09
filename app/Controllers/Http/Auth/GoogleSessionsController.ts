@@ -3,13 +3,14 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { base64 } from '@ioc:Adonis/Core/Helpers'
 import BadGoogleUserException from 'App/Exceptions/BadGoogleUserException'
 import User from 'App/Models/User'
+import CreateGoogleSessionValidator from 'App/Validators/CreateGoogleSessionValidator'
 
 interface State {
   appRedirectUri: string
 }
 export default class GoogleSessionsController {
   public async redirect({ ally, request }: HttpContextContract) {
-    const { appRedirectUri } = request.all()
+    const { appRedirectUri } = await request.validate(CreateGoogleSessionValidator)
 
     const state: State = { appRedirectUri }
 
