@@ -45,7 +45,7 @@ export default class GoogleSessionsController {
         user.related('profile').create({ name, imageUrl: avatarUrl ?? undefined })
       }
 
-      const token = await auth.use('api').generate(user)
+      const token = await auth.use('api').generate(user, { expiresIn: '1days' })
 
       response.redirect().toPath(`${state.appRedirectUri}?token=${token.token}&`)
     } catch (err) {

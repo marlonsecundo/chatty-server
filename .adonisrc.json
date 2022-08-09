@@ -31,7 +31,18 @@
     "@adonisjs/core",
     "@adonisjs/lucid",
     "@adonisjs/ally",
-    "@adonisjs/auth"
+    "@adonisjs/auth",
+    "@adonisjs/view"
   ],
-  "aceProviders": ["@adonisjs/repl"]
+  "aceProviders": ["@adonisjs/repl"],
+  "metaFiles": [
+    {
+      "pattern": "public/**",
+      "reloadServer": false
+    },
+    {
+      "pattern": "resources/views/**/*.edge",
+      "reloadServer": false
+    }
+  ]
 }

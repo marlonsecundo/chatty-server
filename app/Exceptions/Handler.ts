@@ -15,9 +15,27 @@
 
 import Logger from '@ioc:Adonis/Core/Logger'
 import HttpExceptionHandler from '@ioc:Adonis/Core/HttpExceptionHandler'
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class ExceptionHandler extends HttpExceptionHandler {
   constructor() {
     super(Logger)
+  }
+
+  public async handle(error: any, ctx: HttpContextContract) {
+    /**
+     * Self handle the validation exception
+     */
+
+    if (error.status === 404) {
+      return ctx.view.render('errors/not-found')
+    } else if (error.status === 401) {
+      return ctx.view.render('errors/unauthorized')
+    }
+
+    /**
+     * Forward rest of the exceptions to the parent class
+     */
+    return super.handle(error, ctx)
   }
 }
