@@ -16,7 +16,7 @@ export default class PostLike {
         route: 'Feed',
       },
       notification: {
-        body: `The ${userWhoLiked.username} liked your post`,
+        body: `The ${userWhoLiked?.profile?.name ?? '-'} liked your post`,
         title: `Your post has ${likesCount} likes`,
       },
       token: fcmToken,

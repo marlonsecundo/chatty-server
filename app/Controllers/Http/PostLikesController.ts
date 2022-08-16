@@ -36,7 +36,11 @@ export default class PostLikesController {
     const postLike = await PostsLike.firstOrCreate({ postId, userId: user.id })
 
     await postLike.load('post', (query) => {
-      query.preload('user').withCount('likes')
+      query
+        .preload('user', (userQuery) => {
+          userQuery.preload('profile')
+        })
+        .withCount('likes')
     })
 
     const { post } = postLike
