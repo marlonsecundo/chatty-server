@@ -8,12 +8,17 @@ export default class UpdateUserValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    username: schema.string({ escape: true, trim: true }, [rules.regex(alphaNumberWithUndercore)]),
+    username: schema.string({ escape: true, trim: true }, [
+      rules.regex(alphaNumberWithUndercore),
+      rules.unique({ table: 'users', column: 'username' }),
+    ]),
     profile: schema.object().members({
       name: schema.string({ escape: true, trim: true }, [rules.regex(alphaNumber)]),
       description: schema.string(),
     }),
   })
 
-  public messages = {}
+  public messages = {
+    'username.unique': 'Username not available',
+  }
 }
