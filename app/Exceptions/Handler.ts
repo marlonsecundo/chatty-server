@@ -36,6 +36,8 @@ export default class ExceptionHandler extends HttpExceptionHandler {
     if (error.code === 'E_OAUTH_MISSING_CODE') {
       return ctx.view.render('errors/unauthorized')
     }
+
+    console.log({ error })
     /**
      * Forward rest of the exceptions to the parent class
      */

@@ -10,7 +10,6 @@ export default class UpdateUserValidator {
   public schema = schema.create({
     username: schema.string({ escape: true, trim: true }, [rules.regex(alphaNumberWithUndercore)]),
     profile: schema.object().members({
-      birth: schema.date({}, [rules.before('today')]),
       name: schema.string({ escape: true, trim: true }, [rules.regex(alphaNumber)]),
       description: schema.string(),
     }),

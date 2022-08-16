@@ -6,9 +6,10 @@ services:
     build:
       context: .
       target: dependencies
-    ports:
-      - ${PORT}:${PORT}
-      - 9229:9229
+    network_mode: host
+    # ports:
+    #   - ${PORT}:${PORT}
+    #   - 9229:9229
     env_file:
       - .env
     volumes:

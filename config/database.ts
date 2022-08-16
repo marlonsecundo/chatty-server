@@ -1,5 +1,5 @@
 import Env from '@ioc:Adonis/Core/Env'
-import { DatabaseConfig } from '@ioc:Adonis/Lucid/Database'
+import { DatabaseConfig, PostgreConfig } from '@ioc:Adonis/Lucid/Database'
 
 let host
 let port
@@ -37,50 +37,34 @@ if (Env.get('NODE_ENV') === 'development') {
   database = databasePROD
 }
 
+let pgConfig: PostgreConfig = {
+  client: 'pg',
+  connection: {
+    host,
+    port,
+    user,
+    password,
+    database,
+  },
+  migrations: {
+    naturalSort: true,
+    disableRollbacksInProduction: true,
+  },
+  healthCheck: false,
+  debug: false,
+}
+
+if (Env.get('NODE_ENV') === 'production') {
+  pgConfig.connection!['ssl'] = {
+    rejectUnauthorized: false,
+  }
+}
+
 const databaseConfig: DatabaseConfig = {
-  /*
-  |--------------------------------------------------------------------------
-  | Connection
-  |--------------------------------------------------------------------------
-  |
-  | The primary connection for making database queries across the application
-  | You can use any key from the `connections` object defined in this same
-  | file.
-  |
-  */
   connection: Env.get('DB_CONNECTION'),
 
   connections: {
-    /*
-    |--------------------------------------------------------------------------
-    | PostgreSQL config
-    |--------------------------------------------------------------------------
-    |
-    | Configuration for PostgreSQL database. Make sure to install the driver
-    | from npm when using this connection
-    |
-    | npm i pg
-    |
-    */
-    pg: {
-      client: 'pg',
-      connection: {
-        host,
-        port,
-        user,
-        password,
-        database,
-        ssl: {
-          rejectUnauthorized: false,
-        },
-      },
-      migrations: {
-        naturalSort: true,
-        disableRollbacksInProduction: true,
-      },
-      healthCheck: false,
-      debug: false,
-    },
+    pg: pgConfig,
   },
 }
 
