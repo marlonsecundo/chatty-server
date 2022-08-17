@@ -23,6 +23,7 @@ export default class UpdateUserValidator {
   })
 
   public messages = {
+    'username.regex': 'Invalid username, only use letters and numbers',
     'username.unique': 'Username not available',
   }
 }
