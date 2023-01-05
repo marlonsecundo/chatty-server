@@ -6,3 +6,4 @@ coverage
 .env
 tmp
 postgres-data
+chatty-firebase-adminsdk.json

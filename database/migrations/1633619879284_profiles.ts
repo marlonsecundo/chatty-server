@@ -11,7 +11,7 @@ export default class Profiles extends BaseSchema {
       table.string('description')
       table.string('image_url')
       table
-        .integer('user_id')
+        .uuid('user_id')
         .references('users.id')
         .notNullable()
         .onDelete('CASCADE')

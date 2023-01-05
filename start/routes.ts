@@ -26,7 +26,22 @@ Route.get('/', async () => {
 
 // Google Auth
 Route.get('/google/redirect', 'Auth/GoogleSessionsController.redirect')
-Route.get('/google/callback', 'Auth/GoogleSessionsController.callback')
+Route.get('/google/callback/', 'Auth/GoogleSessionsController.callback')
+Route.get('/google/user', 'Auth/GoogleSessionsController.getUser').middleware('auth')
+Route.delete('/logout', 'Auth/GoogleSessionsController.logout').middleware('auth')
 
 // Resources
-Route.resource('posts', 'PostsController').apiOnly()
+Route.group(() => {
+  // POST
+  Route.resource('posts', 'PostsController').apiOnly()
+
+  // POST_LIKE
+  Route.resource('posts/:posts_id/likes', 'PostLikesController').apiOnly().except(['destroy'])
+  Route.delete('posts/:posts_id/likes/my', 'PostLikesController.destroy')
+
+  // USER
+  Route.get('users/:users_id', 'UsersController.show')
+  Route.patch('users/me', 'UsersController.update')
+  Route.delete('users/me', 'UsersController.destroy')
+  Route.post('users/me/fcmtoken', 'UserFCMTokensController.store')
+}).middleware('auth')

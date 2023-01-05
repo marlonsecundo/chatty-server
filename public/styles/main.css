@@ -1,0 +1,16 @@
+@import 'normalize.css';
+
+body {
+  width: 100vw;
+  height: 100vh;
+
+  overflow: hidden;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-family: montserrat;
+
+  margin: 0;
+}

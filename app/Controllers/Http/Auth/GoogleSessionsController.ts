@@ -1,22 +1,37 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+
+import { base64 } from '@ioc:Adonis/Core/Helpers'
 import BadGoogleUserException from 'App/Exceptions/BadGoogleUserException'
 import User from 'App/Models/User'
-import Env from '@ioc:Adonis/Core/Env'
+import CreateGoogleSessionValidator from 'App/Validators/CreateGoogleSessionValidator'
 
+interface State {
+  appRedirectUri: string
+}
 export default class GoogleSessionsController {
-  public async redirect({ ally }: HttpContextContract) {
-    return ally.use('google').redirect((redirectRequest) => {
-      redirectRequest.scopes([
-        'userinfo.profile',
-        'userinfo.email',
-        'user.gender.read',
-        'user.birthday.read',
-      ])
-    })
+  public async redirect({ ally, request }: HttpContextContract) {
+    const { appRedirectUri } = await request.validate(CreateGoogleSessionValidator)
+
+    const state: State = { appRedirectUri }
+
+    let encodedState = base64.urlEncode(JSON.stringify(state))
+
+    return ally
+      .use('google')
+      .stateless()
+      .redirect((redirectRequest) => {
+        redirectRequest
+          .scopes(['userinfo.profile', 'userinfo.email', 'user.gender.read', 'user.birthday.read'])
+          .param('state', encodedState)
+      })
   }
 
-  public async callback({ ally, auth, response }: HttpContextContract) {
-    const { email, name, avatarUrl } = await ally.use('google').user()
+  public async callback({ ally, request, auth, response }: HttpContextContract) {
+    const { email, name, avatarUrl } = await ally.use('google').stateless().user()
+
+    const { state: encodedState } = request.all()
+
+    const state: State = JSON.parse(base64.urlDecode(encodedState))
 
     try {
       let user = await User.findBy('email', email)
@@ -31,13 +46,26 @@ export default class GoogleSessionsController {
         user.related('profile').create({ name, imageUrl: avatarUrl ?? undefined })
       }
 
-      const token = await auth.use('api').generate(user)
+      const token = await auth.use('api').generate(user, { expiresIn: '1days' })
 
-      const url = Env.get('REDIRECT_TOKEN_URL')
-
-      response.redirect().toPath(`${url}?token=${token.token}`)
+      response.redirect().toPath(`${state.appRedirectUri}?token=${token.token}&`)
     } catch (err) {
-      console.log(err)
+      throw err
     }
+  }
+
+  public async getUser({ auth }: HttpContextContract) {
+    const { id } = await auth.use('api').authenticate()
+
+    return User.query()
+      .where({ id })
+      .withCount('postLikes')
+      .withCount('posts')
+      .preload('profile')
+      .first()
+  }
+
+  public async logout({ auth }: HttpContextContract) {
+    return auth.logout()
   }
 }
