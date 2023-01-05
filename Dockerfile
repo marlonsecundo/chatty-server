@@ -23,10 +23,14 @@ RUN node ace build --production
 
 FROM base AS production
 ENV NODE_ENV=production
-# ENV PORT=$PORT
-# ENV HOST=$HOST
+ENV PORT=3333
+ENV HOST=0.0.0.0
 COPY --chown=node:node ./package*.json ./
 RUN npm ci --production
 COPY --chown=node:node --from=build /home/node/app/build .
-# EXPOSE $PORT
+
+
+
+
+EXPOSE $PORT
 CMD [ "dumb-init", "node", "server.js" ]

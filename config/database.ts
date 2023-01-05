@@ -14,27 +14,11 @@ if (Env.get('NODE_ENV') === 'development') {
   password = Env.get('DEV_PG_PASSWORD', '')
   database = Env.get('DEV_PG_DB_NAME')
 } else if (Env.get('NODE_ENV') === 'production') {
-  // DATABASE_URL_PATTERN
-  // postgres://user:password@host:port/databse
-  // see more in https://devcenter.heroku.com/articles/connecting-to-heroku-postgres-databases-from-outside-of-heroku
-
-  const [, userPROD, passwordPROD, hostPROD, portPROD, databasePROD] = Env.get('DATABASE_URL')
-    .replace('\n', '')
-    .split('postgres://')
-    .join(',')
-    .split(':')
-    .join(',')
-    .split('@')
-    .join(',')
-    .split('/')
-    .join(',')
-    .split(',')
-
-  host = hostPROD
-  port = Number(portPROD)
-  user = userPROD
-  password = passwordPROD
-  database = databasePROD
+  host = Env.get('PROD_PG_HOST')
+  port = Env.get('PROD_PG_PORT')
+  user = Env.get('PROD_PG_USER')
+  password = Env.get('PROD_PG_PASSWORD', '')
+  database = Env.get('PROD_PG_DB_NAME')
 }
 
 let pgConfig: PostgreConfig = {
@@ -55,9 +39,7 @@ let pgConfig: PostgreConfig = {
 }
 
 if (Env.get('NODE_ENV') === 'production') {
-  pgConfig.connection!['ssl'] = {
-    rejectUnauthorized: false,
-  }
+  pgConfig.connection!['ssl'] = false
 }
 
 const databaseConfig: DatabaseConfig = {

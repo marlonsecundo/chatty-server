@@ -29,12 +29,15 @@ export default Env.rules({
   DEV_PG_PASSWORD: Env.schema.string.optional(),
   DEV_PG_DB_NAME: Env.schema.string.optional(),
   //
+  PROD_PG_HOST: Env.schema.string.optional({ format: 'host' }),
+  PROD_PG_PORT: Env.schema.number.optional(),
+  PROD_PG_USER: Env.schema.string.optional(),
+  PROD_PG_PASSWORD: Env.schema.string.optional(),
+  PROD_PG_DB_NAME: Env.schema.string.optional(),
+  //
   GOOGLE_CLIENT_ID: Env.schema.string(),
   GOOGLE_CLIENT_SECRET: Env.schema.string(),
   GOOGLE_CALLBACK_BASE_URL: Env.schema.string(),
-  //
-  HEROKU_APP_NAME: Env.schema.string(),
-  DATABASE_URL: Env.schema.string(),
   //
   FIREBASE_CLIENT_EMAIL: Env.schema.string(),
   FIREBASE_PRIVATE_KEY: Env.schema.string(),
